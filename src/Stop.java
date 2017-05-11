@@ -1,11 +1,12 @@
 
-public class Station {
+public class Stop {
 
 	private long id;
 	private String name;
 	private String description;
 	private float latitude;
 	private float longitude;
+	
 	public long getId() {
 		return id;
 	}
