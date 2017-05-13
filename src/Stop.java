@@ -1,16 +1,18 @@
+import java.util.List;
+
 
 public class Stop {
 
-	private long id;
+	private List<Long> id;
 	private String name;
 	private String description;
 	private float latitude;
 	private float longitude;
 	
-	public long getId() {
+	public List<Long> getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(List<Long> id) {
 		this.id = id;
 	}
 	public String getName() {

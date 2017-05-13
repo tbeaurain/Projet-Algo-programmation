@@ -14,7 +14,7 @@ public class Main {
 			List<String> lines = readFile.readWithStop("documents/RATP_GTFS_METRO_" + str + "/stops.txt");
 			ArrayList<Stop> listStops = graph.createListOfStations(lines);
 			for(Stop stop : listStops) {
-				System.out.println(stop.getName());
+				System.out.println("Station : " + stop.getName());
 			}
 		}
 		System.out.println("Nombre de Stations : " + graph.getNumberOfStopInParis());
