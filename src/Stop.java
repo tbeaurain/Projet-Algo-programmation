@@ -1,6 +1,4 @@
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class Stop {
@@ -10,6 +8,8 @@ public class Stop {
 	private String description;
 	private float latitude;
 	private float longitude;
+	Stop previousInLine;
+	Stop afterInLine;
 	
 	public List<Long> getId() {
 		return id;
