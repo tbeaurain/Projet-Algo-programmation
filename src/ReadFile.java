@@ -11,8 +11,17 @@ public class ReadFile {
 	ArrayList<Stop> stops = new ArrayList<Stop>();
 	ArrayList<String> nameStations = new ArrayList<String>();
 	Map<String,List<Long>> map = new HashMap<String, List<Long>>();
-	
-	public List<String> readWithStop(String filePath) throws IOException {
+	String[] subwayWithoutLoop = {"Metro_1","Metro_2",
+			"Metro_3","Metro_4","Metro_5","Metro_6",
+			"Metro_8","Metro_9","Metro_11","Metro_12",
+			"Metro_14","Metro_3b","Metro_Fun","Metro_Orv"};
+	/**
+	 * Read Files.
+	 * @param filePath
+	 * @return lines
+	 * @throws IOException
+	 */
+	public List<String> read(String filePath) throws IOException {
 		List<String> lines = new ArrayList<String>();
 		try{	
 	        BufferedReader buf = new BufferedReader(new FileReader(filePath));	
@@ -27,6 +36,11 @@ public class ReadFile {
 		return lines;
 	}
 	
+	/**
+	 * Parse the file stops.txt.
+	 * @param lines
+	 * @return stops
+	 */
 	public ArrayList<Stop> parseStopsFile(List<String> lines) {
 		lines.remove(0);
 		String newLine;
@@ -41,8 +55,8 @@ public class ReadFile {
 			
 			stop.setName(parametersOfStation.get(2).replace("\"", ""));
 			stop.setDescription(parametersOfStation.get(3).replace("\"", ""));
-			stop.setLatitude(Float.parseFloat(parametersOfStation.get(4)));
-			stop.setLongitude(Float.parseFloat(parametersOfStation.get(5)));
+			stop.setLatitude(Double.parseDouble(parametersOfStation.get(4)));
+			stop.setLongitude(Double.parseDouble(parametersOfStation.get(5)));
 
 			if(map.containsKey(parametersOfStation.get(2).replace("\"", ""))) {
 				map.get(parametersOfStation.get(2).replace("\"", "")).add(Long.parseLong(parametersOfStation.get(0)));			
@@ -58,7 +72,39 @@ public class ReadFile {
 				stops.add(stop);
 			}
 	    }
-		nameStations.clear();
 		return stops;
+	}
+	
+	/**
+	 * Parse the file stop_times.txt.
+	 * @param lines
+	 * @param sub
+	 * @param stopBySubwayCount
+	 */
+	public void parseStopTimesFile(List<String> lines, Subway sub, int stopBySubwayCount) {
+		
+		List<String> lineWithoutLoop = new ArrayList<String>();
+		for(int i = 0; i<subwayWithoutLoop.length; i++) {
+			lineWithoutLoop.add(subwayWithoutLoop[i]);
+		}
+		
+		if(lineWithoutLoop.contains(sub.getName())) {
+			List<String> newLines = lines.subList(1, stopBySubwayCount+1);
+			
+			for (String  line : newLines) {
+				String[] params = line.split(",");
+				List<String> parametersOfStation = new ArrayList<String>();
+				for (String param : params) {
+					parametersOfStation.add(param);	
+				}
+				
+				for(Stop stop : sub.getStops()) {
+					if(stop.getId().contains(Long.parseLong(parametersOfStation.get(3)))) {
+						stop.setPositionInSubway(Integer.parseInt(parametersOfStation.get(4)));
+					}
+				}
+			}
+		}
+		
 	}
 }
