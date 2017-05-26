@@ -9,7 +9,6 @@ public class Stop {
 	private Double latitude;
 	private Double longitude;
 	private List<Stop> neighbors;
-	private int positionInSubway;
 	
 	/**
 	 * getId()
@@ -106,21 +105,4 @@ public class Stop {
 	public void setNeighbors(List<Stop> neighbors) {
 		this.neighbors = neighbors;
 	}
-	
-	/**
-	 * getPositionInSubway()
-	 * @return positionInSubway
-	 */
-	public int getPositionInSubway() {
-		return positionInSubway;
-	}
-	
-	/**
-	 * setPositionInSubway()
-	 * @param positionInSubway
-	 */
-	public void setPositionInSubway(int positionInSubway) {
-		this.positionInSubway = positionInSubway;
-	}
-	
 }
