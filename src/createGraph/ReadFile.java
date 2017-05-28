@@ -1,3 +1,4 @@
+package createGraph;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -87,60 +88,49 @@ public class ReadFile {
 		for(int i =0; i<tab.length;i++) {
 			test.add(tab[i]);
 		}
-			
-		int previousPos = 0;
-		Long previousIdStop = null;
 		
 		if(test.contains(strSubway)) {
 			List<String> newLines = lines.subList(1, sub.getNumberOfStops()+1);
-			for (String  line : newLines) {
-				Map<Long, Long> idToId = new HashMap<Long, Long>();
-				List<String> parameters = new ArrayList<String>();
-				String[] param = line.split(",");
-				for(String str : param) {
-					parameters.add(str);
-				}
-				int pos = Integer.parseInt(parameters.get(4));
-				Long idStop = Long.parseLong(parameters.get(3));
-				idToId.put(previousIdStop, idStop);
-				
-				if(pos == previousPos+1 && previousIdStop != null) {
-					if(!allIdToId.contains(idToId)) {
-						Edge edge = new Edge();
-						Edge edge2 = new Edge();
-						UnweightedGraph.createAndgetListOfEdge(edge, previousIdStop, idStop);
-						UnweightedGraph.createAndgetListOfEdge(edge2, idStop, previousIdStop);
-						allIdToId.add(idToId);
-					}	
-				}
-				previousPos = pos;
-				previousIdStop = idStop;
-			}
-			
+			creationOfEdges(newLines, true);
 		} else {
-			lines.remove(0);			
-			for (String  line :lines ) {
-				Map<Long, Long> idToId2 = new HashMap<Long, Long>();
-				List<String> parameters = new ArrayList<String>();
-				String[] param = line.split(",");
-				for(String str : param) {
-					parameters.add(str);
-				}
-				
-				int pos = Integer.parseInt(parameters.get(4));
-				Long idStop = Long.parseLong(parameters.get(3));
-				idToId2.put(previousIdStop, idStop);
-				
-				if(pos == previousPos+1 && previousIdStop != null) {
-					if(!allIdToId.contains(idToId2)) {
-						Edge edge = new Edge();
-						UnweightedGraph.createAndgetListOfEdge(edge, previousIdStop, idStop);
-						allIdToId.add(idToId2);
-					}	
-				}
-				previousPos = pos;
-				previousIdStop = idStop;
-			}	
+			lines.remove(0);
+			creationOfEdges(lines, false);
+		}
+	}
+	
+	/**
+	 * creationOfEdges()
+	 * @param lines
+	 * @param hasToCreateTwoEdges
+	 */
+	public void creationOfEdges(List<String> lines, boolean hasToCreateTwoEdges) {
+		int previousPos = 0;
+		Long previousIdStop = null;
+		for (String  line : lines) {
+			Map<Long, Long> idToId = new HashMap<Long, Long>();
+			List<String> parameters = new ArrayList<String>();
+			String[] param = line.split(",");
+			for(String str : param) {
+				parameters.add(str);
+			}
+			int pos = Integer.parseInt(parameters.get(4));
+			Long idStop = Long.parseLong(parameters.get(3));
+			idToId.put(previousIdStop, idStop);
+			
+			if(pos == previousPos+1 && previousIdStop != null) {
+				if(!allIdToId.contains(idToId)) {
+					if(hasToCreateTwoEdges == true) {
+						Graph.createEdges(previousIdStop, idStop);
+						Graph.createEdges(idStop, previousIdStop);
+					} else {
+						Graph.createEdges(previousIdStop, idStop);
+					}
+					
+					allIdToId.add(idToId);
+				}	
+			}
+			previousPos = pos;
+			previousIdStop = idStop;
 		}
 	}
 }

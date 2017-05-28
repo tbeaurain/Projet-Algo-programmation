@@ -1,3 +1,4 @@
+package createGraph;
 import java.io.IOException;
 
 
@@ -10,6 +11,6 @@ public class Main {
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
-		new UnweightedGraph(tab);
+		new Graph(tab,true);
 	}
 }

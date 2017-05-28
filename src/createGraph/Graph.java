@@ -1,3 +1,4 @@
+package createGraph;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -5,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class UnweightedGraph {
+public class Graph {
 	private static int nodesCount;
 	private static int edgesCount;
 	
@@ -14,12 +15,15 @@ public class UnweightedGraph {
 	private Map<String, Subway> nameSubway = new HashMap<String, Subway>();
 	private static List<Edge> edges = new ArrayList<Edge>();
 	
+	private static boolean isWeigtedGraph;
+	
 	/**
 	 * Constructor of UnweightedGraph
 	 * @param tab
 	 * @throws IOException
 	 */
-	public UnweightedGraph(String  tab[]) throws IOException {
+	public Graph(String  tab[], boolean isWeighted) throws IOException {
+		setWeigtedGraph(isWeighted);
 		createAllStop(tab);
 		addEdges(tab);
 		addNeighborsToStop();
@@ -77,7 +81,9 @@ public class UnweightedGraph {
 	 */
 	public void print() {
 		for(Stop s : getListStops()) {
+			System.out.println("-------------------------------------------");
 			System.out.println(s.getName() + ", ID : " + s.getId());
+			System.out.println("Voisins de " + s.getName() + " : ");
 			for(Stop st : s.getNeighbors()) {
 				System.out.println(st.getName());
 			}
@@ -88,6 +94,7 @@ public class UnweightedGraph {
 		for(Edge e : getEdges()) {
 			System.out.println( e.getFrom() + " -> " + e.getTo() + " with weight : "  + e.getWeight());
 		}
+		System.out.println("-------------------------------------------");
 		System.out.println("Nombre de Edges : " + getNumberOfEdges());
 	}
 	
@@ -97,7 +104,8 @@ public class UnweightedGraph {
 	 * @param idFrom
 	 * @param idTo
 	 */
-	public static void createAndgetListOfEdge(Edge edge, Long idFrom, Long idTo) {
+	public static void createEdges(Long idFrom, Long idTo) {
+		Edge edge = new Edge();
 		String nameStopFrom = getStopById(idFrom).getName();
 		String nameStopTo = getStopById(idTo).getName();
 		Double weight =  getWeightBetweenToStops(getStopById(idFrom),getStopById(idTo));
@@ -125,8 +133,12 @@ public class UnweightedGraph {
 		Double lat2 = to.getLatitude();
 		Double long2 = to.getLongitude();
 		Double weight = null;
+		if(isWeigtedGraph() == true) {
+			weight = Math.sqrt(((lat2-lat1)*(lat2-lat1))+((long2-long1)*(long2-long1)));
+		} else {
+			weight = 0.0;
+		}
 		
-		weight = Math.sqrt(((lat2-lat1)*(lat2-lat1))+((long2-long1)*(long2-long1)));
 		
 		return weight;
 	}
@@ -239,5 +251,21 @@ public class UnweightedGraph {
 			}
 		}
 		return stop;
+	}
+
+	/**
+	 * isWeigtedGraph()
+	 * @return
+	 */
+	public static boolean isWeigtedGraph() {
+		return isWeigtedGraph;
+	}
+
+	/**
+	 * setWeigtedGraph()
+	 * @param isWeigtedGraph
+	 */
+	public static void setWeigtedGraph(boolean isWeigtedGraph) {
+		Graph.isWeigtedGraph = isWeigtedGraph;
 	}
 }
