@@ -6,14 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.ietf.jgss.Oid;
-
 
 public class ReadFile {
 	ArrayList<Stop> stops = new ArrayList<Stop>();
 	ArrayList<String> nameStations = new ArrayList<String>();
 	Map<String,List<Long>> map = new HashMap<String, List<Long>>();
 	List<Map<Long, Long>> allIdToId = new ArrayList<Map<Long,Long>>();
+	
+	public final static String  tab[] = {"1","2","4","6","9"};
 	
 	/**
 	 * Read Files.
@@ -82,33 +82,65 @@ public class ReadFile {
 	 * @param stopBySubwayCount
 	 */
 
-	public void parseStopTimesFile(List<String> lines) {
-		lines.remove(0);
+	public void parseStopTimesFile(List<String> lines, String strSubway, Subway sub) {
+		List<String> test = new ArrayList<String>();
+		for(int i =0; i<tab.length;i++) {
+			test.add(tab[i]);
+		}
+			
 		int previousPos = 0;
 		Long previousIdStop = null;
 		
-		
-		for (String  line :lines ) {
-			Map<Long, Long> idToId = new HashMap<Long, Long>();
-			List<String> parameters = new ArrayList<String>();
-			String[] param = line.split(",");
-			for(String str : param) {
-				parameters.add(str);
+		if(test.contains(strSubway)) {
+			List<String> newLines = lines.subList(1, sub.getNumberOfStops()+1);
+			for (String  line : newLines) {
+				Map<Long, Long> idToId = new HashMap<Long, Long>();
+				List<String> parameters = new ArrayList<String>();
+				String[] param = line.split(",");
+				for(String str : param) {
+					parameters.add(str);
+				}
+				int pos = Integer.parseInt(parameters.get(4));
+				Long idStop = Long.parseLong(parameters.get(3));
+				idToId.put(previousIdStop, idStop);
+				
+				if(pos == previousPos+1 && previousIdStop != null) {
+					if(!allIdToId.contains(idToId)) {
+						Edge edge = new Edge();
+						Edge edge2 = new Edge();
+						UnweightedGraph.createAndgetListOfEdge(edge, previousIdStop, idStop);
+						UnweightedGraph.createAndgetListOfEdge(edge2, idStop, previousIdStop);
+						allIdToId.add(idToId);
+					}	
+				}
+				previousPos = pos;
+				previousIdStop = idStop;
 			}
 			
-			int pos = Integer.parseInt(parameters.get(4));
-			Long idStop = Long.parseLong(parameters.get(3));
-			idToId.put(previousIdStop, idStop);
-			
-			if(pos == previousPos+1 && previousIdStop != null) {
-				if(!allIdToId.contains(idToId)) {
-					Edge edge = new Edge();
-					UnweightedGraph.createAndgetListOfEdge(edge, previousIdStop, idStop);
-					allIdToId.add(idToId);
-				}	
-			}
-			previousPos = pos;
-			previousIdStop = idStop;
-		}	
+		} else {
+			lines.remove(0);			
+			for (String  line :lines ) {
+				Map<Long, Long> idToId2 = new HashMap<Long, Long>();
+				List<String> parameters = new ArrayList<String>();
+				String[] param = line.split(",");
+				for(String str : param) {
+					parameters.add(str);
+				}
+				
+				int pos = Integer.parseInt(parameters.get(4));
+				Long idStop = Long.parseLong(parameters.get(3));
+				idToId2.put(previousIdStop, idStop);
+				
+				if(pos == previousPos+1 && previousIdStop != null) {
+					if(!allIdToId.contains(idToId2)) {
+						Edge edge = new Edge();
+						UnweightedGraph.createAndgetListOfEdge(edge, previousIdStop, idStop);
+						allIdToId.add(idToId2);
+					}	
+				}
+				previousPos = pos;
+				previousIdStop = idStop;
+			}	
+		}
 	}
 }

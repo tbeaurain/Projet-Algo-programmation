@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -9,6 +10,10 @@ public class Stop {
 	private Double latitude;
 	private Double longitude;
 	private List<Stop> neighbors;
+	
+	public Stop() {
+		neighbors = new ArrayList<Stop>();
+	}
 	
 	/**
 	 * getId()

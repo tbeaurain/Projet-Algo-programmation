@@ -20,18 +20,34 @@ public class Edge
 		this.weight = weight;
 	}
 
+	/**
+	 * getFrom()
+	 * @return from
+	 */
 	public String getFrom() {
 		return from;
 	}
 
+	/**
+	 * setFrom()
+	 * @param from
+	 */
 	public void setFrom(String from) {
 		this.from = from;
 	}
 
+	/**
+	 * getTo()
+	 * @return to
+	 */
 	public String getTo() {
 		return to;
 	}
 
+	/**
+	 * setTo()
+	 * @param to
+	 */
 	public void setTo(String to) {
 		this.to = to;
 	}
