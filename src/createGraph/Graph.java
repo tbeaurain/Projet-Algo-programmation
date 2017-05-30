@@ -14,6 +14,7 @@ public class Graph {
 	private static ArrayList<Subway> subways = new ArrayList<Subway>();
 	private Map<String, Subway> nameSubway = new HashMap<String, Subway>();
 	private static List<Edge> edges = new ArrayList<Edge>();
+	private static List<Double> listOfWeight = new ArrayList<Double>();
 	
 	private static boolean isWeigtedGraph;
 	
@@ -114,6 +115,7 @@ public class Graph {
 			edge.setFrom(nameStopFrom);
 			edge.setTo(nameStopTo);
 			edge.setWeight(weight);
+			getListOfWeight().add(weight);
 		} 
 		
 		if(!getEdges().contains(edge)) {
@@ -125,22 +127,28 @@ public class Graph {
 	 * getWeightBetweenToStops()
 	 * @param from
 	 * @param to
-	 * @return
+	 * @return dist
 	 */
 	public static Double getWeightBetweenToStops(Stop from, Stop to) {
+		Double dist = null;
 		Double lat1 = from.getLatitude();
-		Double long1 = from.getLongitude();
+		Double lng1 = from.getLongitude();
 		Double lat2 = to.getLatitude();
-		Double long2 = to.getLongitude();
-		Double weight = null;
+		Double lng2 = to.getLongitude();
+		
 		if(isWeigtedGraph() == true) {
-			weight = Math.sqrt(((lat2-lat1)*(lat2-lat1))+((long2-long1)*(long2-long1)));
+			double earthRadius = 6371000; //meters
+			double dLat = Math.toRadians(lat2-lat1);
+			double dLng = Math.toRadians(lng2-lng1);
+			double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+			           Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+			           Math.sin(dLng/2) * Math.sin(dLng/2);
+			double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+			dist = earthRadius * c;
 		} else {
-			weight = 0.0;
+			dist = 0.0;
 		}
-		
-		
-		return weight;
+		return dist;
 	}
 	
 	/**
@@ -267,5 +275,19 @@ public class Graph {
 	 */
 	public static void setWeigtedGraph(boolean isWeigtedGraph) {
 		Graph.isWeigtedGraph = isWeigtedGraph;
+	}
+
+	public static List<Double> getListOfWeight() {
+		return listOfWeight;
+	}
+	
+	public Edge getEdgeWithFromAndTo(String from, String to) {
+		Edge edge = null;
+		for(Edge e : getEdges()) {
+			if(e.getFrom().equals(from) && e.getTo().equals(to)) {
+				edge = e;
+			}
+		}
+		return edge;
 	}
 }
