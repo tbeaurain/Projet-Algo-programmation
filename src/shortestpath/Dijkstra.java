@@ -70,7 +70,6 @@ public class Dijkstra extends ShortestPath {
 				nodeListOfPath.add(currentNode); 			
 			}
 			System.out.println(" SP de {" + v + " to " + currentNode + "} : " + nodeListOfPath);
-			System.out.println("Distance : " + getDistance());
 		}
 	}
 }
