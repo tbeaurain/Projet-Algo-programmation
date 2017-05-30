@@ -1,40 +1,38 @@
 package shortestpath;
 
+import java.util.HashMap;
+
 public class ShortestPath {
 	
-	private static boolean[] marked;
-	private static int[] previous;
-	private static int[] distance;
+	private static HashMap<String, Boolean> marked;
+	private static HashMap<String, String> previous;
+	private static HashMap<String, Double> distance;
 	
-	public static boolean hasPathTo(int v) {
-        return getMarked()[v];
+	public static Boolean hasPathTo(String v) {
+        return getMarked().get(v);
     }
 	
-	public static int distTo(int v) {
-        return getDistance()[v];
+	public static Double distTo(String v) {
+        return getDistance().get(v);
     }
 	
-	public static boolean[] getMarked() {
+	public static HashMap<String, Boolean> getMarked() {
 		return marked;
 	}
-
-	public static void setMarked(boolean[] mark) {
-		marked = mark;
+	public static void setMarked(HashMap<String, Boolean> marked) {
+		ShortestPath.marked = marked;
 	}
-
-	public static int[] getPrevious() {
+	public static HashMap<String, String> getPrevious() {
 		return previous;
 	}
-
-	public  static void setPrevious(int[] prev) {
-		previous = prev;
+	public static void setPrevious(HashMap<String, String> previous) {
+		ShortestPath.previous = previous;
 	}
-
-	public static int[] getDistance() {
+	public static HashMap<String, Double> getDistance() {
 		return distance;
 	}
-
-	public static void setDistance(int[] dist) {
-		distance = dist;
+	public static void setDistance(HashMap<String, Double> distance) {
+		ShortestPath.distance = distance;
 	}
+	
 }
