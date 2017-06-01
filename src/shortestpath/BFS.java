@@ -31,17 +31,16 @@ public class BFS extends ShortestPath {
 			System.out.println("Prev : " + prevs);
 			System.out.println("getPrevious().get(currentVisit) : " + getPrevious().get(currentVisit));
 			System.out.println("CurrentVisit : " + currentVisit);
-			if (prevs.equals(getPrevious().get(currentVisit))) {
-				count ++;					
-			}
-			
 			List<Stop> neighbors = g.getStopByName(currentVisit).getNeighbors();
 			visited.add(currentVisit);
 			getMarked().put(currentVisit, true);
 			if(neighbors != null) {
 				for(Stop neighbor : neighbors) {
 					if(!visited.contains(neighbor.getName())) {
-						if(getDistance().get(neighbor.getName()) == null || getDistance().get(neighbor.getName()) > count) {
+						if (!prevs.equals(getPrevious().get(neighbor.getName())) ) {
+							count= getDistance().get(currentVisit)+1;					
+						}
+						if(getDistance().get(neighbor.getName()) == null /*|| getDistance().get(neighbor.getName()) > count*/) {
 							getPrevious().put(neighbor.getName(), currentVisit);
 							getDistance().put(neighbor.getName(), count);
 							System.out.println(neighbor.getName() + " : " + count);
