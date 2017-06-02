@@ -59,6 +59,51 @@ public class Dijkstra extends ShortestPath {
 		printSP("Bastille", s);
 	}
 	
+	public static void DijkstraLP(Graph g, String s) {
+		System.out.println(s);
+		if(verifyNonNegative(g) == true) {
+			
+			setMarked(new HashMap<String, Boolean>());
+			setPrevious(new HashMap<String, String>());
+			setDistance(new HashMap<String, Double>());
+			getDistance().put(s, 0.0);
+			double LDistance = 0;
+			String LStationName = null;
+			
+			Queue<String> q = new LinkedList<String>();
+			List<String> visited = new ArrayList<String>();
+			q.add(s);
+			int i = 0;
+			
+			
+			while(!q.isEmpty() && i<20) {
+				i++;
+				String currentVisit = q.poll();
+				visited.add(currentVisit);
+				List<Stop> neighbors = g.getStopByName(currentVisit).getNeighbors();
+				visited.add(currentVisit);
+				getMarked().put(currentVisit, true);
+				if(neighbors != null) {
+					double e0 = 0.0;
+					for(Stop neighbor : neighbors) {
+						if(!visited.contains(neighbor.getName())) {
+							Edge e = g.getEdgeWithFromAndTo(currentVisit, neighbor.getName());
+							if (getDistance().get(neighbor.getName()) == null || e.getWeight() > e0 ){
+								LDistance = e.getWeight();
+								LStationName = neighbor.getName();
+							}
+						}
+					}
+				System.out.println(currentVisit + "  "+ getDistance().get(currentVisit)+ " distance à ajouter "+ LDistance);
+				getPrevious().put(LStationName, currentVisit);
+				getDistance().put(LStationName, getDistance().get(currentVisit) + LDistance);
+				q.offer(LStationName);
+				}
+			}
+		}
+		printSP("Bastille", s);
+	}
+	
 	public static void printSP(String v, String sommet) {
 		ArrayList<String> nodeListOfPath = new ArrayList<String>();
 		String currentNode = v;  
