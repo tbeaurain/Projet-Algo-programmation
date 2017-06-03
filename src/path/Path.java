@@ -1,8 +1,8 @@
-package shortestpath;
+package path;
 
 import java.util.HashMap;
 
-public class ShortestPath {
+public class Path {
 	
 	private static HashMap<String, Boolean> marked;
 	private static HashMap<String, String> previous;
@@ -20,19 +20,19 @@ public class ShortestPath {
 		return marked;
 	}
 	public static void setMarked(HashMap<String, Boolean> marked) {
-		ShortestPath.marked = marked;
+		Path.marked = marked;
 	}
 	public static HashMap<String, String> getPrevious() {
 		return previous;
 	}
 	public static void setPrevious(HashMap<String, String> previous) {
-		ShortestPath.previous = previous;
+		Path.previous = previous;
 	}
 	public static HashMap<String, Double> getDistance() {
 		return distance;
 	}
 	public static void setDistance(HashMap<String, Double> distance) {
-		ShortestPath.distance = distance;
+		Path.distance = distance;
 	}
 	
 }

@@ -1,12 +1,12 @@
 package createGraph;
 import java.io.IOException;
 
-import shortestpath.BFS;
-import shortestpath.Dijkstra;
+import path.BFS;
+import path.Dijkstra;
 
 
 public class Main {
-	public final static String  tab[] = {"1","2"/*,"3","4","5","6","7","8","9","10","11","12","13","14","3b","7b"*/};
+	public final static String  tab[] = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","3b","7b"};
 	
 	/**
 	 * Main.
@@ -20,7 +20,9 @@ public class Main {
 		if(isWeightedGraph == false) {
 			BFS.bfs(g, "Nation");
 		} else {
-			Dijkstra.DijkstraLP(g, "Nation");
+			Dijkstra.DijkstraPath(g, "Gare du Nord", "SP");
+			System.out.println("------ LP ---------");
+			Dijkstra.DijkstraPath(g, "Gare du Nord", "LP");
 		}
 	}
 }

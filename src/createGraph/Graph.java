@@ -290,4 +290,14 @@ public class Graph {
 		}
 		return edge;
 	}
+	
+	public List<Edge> getEdgeByOneOfVertices(String stopName) {
+		List<Edge> edges = new ArrayList<Edge>();
+		for(Edge e : getEdges()) {
+			if(e.getFrom().equals(stopName)) {
+				edges.add(e);
+			}
+		}
+		return edges;
+	}
 }

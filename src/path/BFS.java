@@ -1,4 +1,4 @@
-package shortestpath;
+package path;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +9,7 @@ import java.util.Queue;
 import createGraph.Graph;
 import createGraph.Stop;
 
-public class BFS extends ShortestPath {
+public class BFS extends Path {
 	
 	public static void bfs(Graph g, String firstNode) {
 
