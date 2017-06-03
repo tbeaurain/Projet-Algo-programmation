@@ -82,20 +82,20 @@ public class Graph {
 	 */
 	public void print() {
 		for(Stop s : getListStops()) {
-			System.out.println("-------------------------------------------");
+			System.out.println("----------------------------------------------------------");
 			System.out.println(s.getName() + ", ID : " + s.getId());
 			System.out.println("Voisins de " + s.getName() + " : ");
 			for(Stop st : s.getNeighbors()) {
 				System.out.println(st.getName());
 			}
 		}
-		System.out.println(" ---------------------------------------------------------- ");
+		System.out.println("----------------------------------------------------------");
 		System.out.println("Nombre total de Stations : " + getNumberOfStopInParis());
-		System.out.println(" ---------------------------------------------------------- ");
+		System.out.println("----------------------------------------------------------");
 		for(Edge e : getEdges()) {
 			System.out.println( e.getFrom() + " -> " + e.getTo() + " with weight : "  + e.getWeight());
 		}
-		System.out.println("-------------------------------------------");
+		System.out.println("----------------------------------------------------------");
 		System.out.println("Nombre de Edges : " + getNumberOfEdges());
 	}
 	

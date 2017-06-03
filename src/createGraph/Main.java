@@ -16,13 +16,12 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		Boolean isWeightedGraph = true;
 		Graph g = new Graph(tab,isWeightedGraph);
-		System.out.println("----------------------------------------------------");
+		System.out.println("----------------------------------------------------------");
 		if(isWeightedGraph == false) {
 			BFS.bfs(g, "Nation");
 		} else {
-			Dijkstra.DijkstraPath(g, "Gare du Nord", "SP");
-			System.out.println("------ LP ---------");
-			Dijkstra.DijkstraPath(g, "Gare du Nord", "LP");
+			Dijkstra.DijkstraSP(g, "Nation");
+			Dijkstra.DijkstraLP(g);
 		}
 	}
 }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Queue;
 
 import createGraph.Edge;
@@ -12,6 +14,11 @@ import createGraph.Stop;
 
 public class Dijkstra extends Path {
 	
+	/**
+	 * verifyNonNegative()
+	 * @param g
+	 * @return
+	 */
 	public static boolean verifyNonNegative(Graph g) {
 		boolean graphWithoutNegativeWeight = false;
 		List<Double> weightList = g.getListOfWeight();
@@ -26,35 +33,12 @@ public class Dijkstra extends Path {
 		
 	}
 	
-	public static void LP(List<Stop> neighbors, String currentVisit, List<String> visited, Graph g, Queue<String> q) {
-		Double e0 = 0.0;
-		for(Stop neighbor : neighbors) {
-			if(!visited.contains(neighbor.getName())) {
-				Edge e = g.getEdgeWithFromAndTo(currentVisit, neighbor.getName());
-				if (getDistance().get(neighbor.getName()) == null || e.getWeight() > e0){
-					getPrevious().put(neighbor.getName(), currentVisit);
-					getDistance().put(neighbor.getName(), getDistance().get(currentVisit) + e.getWeight());
-					q.offer(neighbor.getName());
-				}
-			}
-		}
-	}
-	
-	public static void SP(List<Stop> neighbors, String currentVisit, List<String> visited, Graph g, Queue<String> q) {
-		for(Stop neighbor : neighbors) {
-			if(!visited.contains(neighbor.getName())) {
-				Edge e = g.getEdgeWithFromAndTo(currentVisit, neighbor.getName());
-				if(getDistance().get(neighbor.getName()) == null || getDistance().get(neighbor.getName()) > getDistance().get(currentVisit) + e.getWeight()) {
-					getPrevious().put(neighbor.getName(), currentVisit);
-					getDistance().put(neighbor.getName(), getDistance().get(currentVisit) + e.getWeight());
-					q.offer(neighbor.getName());
-				}
-			}
-		}
-	}
-	
-	public static void DijkstraPath(Graph g, String s, String path) {
-		String maxOrMin = "";
+	/**
+	 * DijkstraSP()
+	 * @param g
+	 * @param s
+	 */
+	public static void DijkstraSP(Graph g, String s) {
 		if(verifyNonNegative(g) == true) {
 			setMarked(new HashMap<String, Boolean>());
 			setPrevious(new HashMap<String, String>());
@@ -71,20 +55,58 @@ public class Dijkstra extends Path {
 				visited.add(currentVisit);
 				getMarked().put(currentVisit, true);
 				if(neighbors != null) {
-					if(path.equals("LP")) {
-						maxOrMin = "Maximum";
-						LP(neighbors, currentVisit, visited, g, q);
-					} else {
-						maxOrMin = "Minimum";
-						SP(neighbors, currentVisit, visited, g, q);
+					for(Stop neighbor : neighbors) {
+						if(!visited.contains(neighbor.getName())) {
+							Edge e = g.getEdgeWithFromAndTo(currentVisit, neighbor.getName());
+							if(getDistance().get(neighbor.getName()) == null || getDistance().get(neighbor.getName()) > getDistance().get(currentVisit) + e.getWeight()) {
+								getPrevious().put(neighbor.getName(), currentVisit);
+								getDistance().put(neighbor.getName(), getDistance().get(currentVisit) + e.getWeight());
+								q.offer(neighbor.getName());
+							}
+						}
 					}
-				}
-			}	
+				}	
+			}
 		}
-		printPath("Bastille", s, maxOrMin, path);
+		//printPath("Bastille", s);	
 	}
 	
-	public static void printPath(String v, String sommet, String minOrmax, String SpOrLp) {
+	/**
+	 * This method allows to have the diameter of the Graph.
+	 * @param g
+	 */
+	public static void DijkstraLP(Graph g) {
+		
+		Double maxPathDistance = 0.0;
+		String from ="";
+		String to="";
+		
+		for(Stop stop : g.getListStops()) {
+			DijkstraSP(g, stop.getName());
+			for(Entry<String, Double> dist : getDistance().entrySet()) {
+				if(dist.getValue() > maxPathDistance) {
+					from = stop.getName();
+					maxPathDistance = dist.getValue();
+					to = dist.getKey();
+				}
+			}
+		}
+		
+		String longestPath = "LongestPath : "  + from + " -> " + to;
+		String longestDistance = "LongestDistance : " + maxPathDistance;
+		
+		System.out.println("----------------------------------------------------------");
+		System.out.println(longestPath);
+		System.out.println(longestDistance);
+		
+	}
+
+	/**
+	 * printPath()
+	 * @param v
+	 * @param sommet
+	 */
+	public static void printPath(String v, String sommet) {
 		ArrayList<String> nodeListOfPath = new ArrayList<String>();
 		String currentNode = v;  
 		nodeListOfPath.add(currentNode);  
@@ -94,8 +116,8 @@ public class Dijkstra extends Path {
 				currentNode = getPrevious().get(currentNode); 
 				nodeListOfPath.add(currentNode); 			
 			}
-			System.out.println(SpOrLp + " de {" + v + " to " + currentNode + "} : " + nodeListOfPath);
-			System.out.println( minOrmax + " distance between "  + v + " and " + currentNode + " : " + getDistance().get(v) + " meters");
+			System.out.println("SP de {" + v + " to " + currentNode + "} : " + nodeListOfPath);
+			System.out.println("Minimum distance between "  + v + " and " + currentNode + " : " + getDistance().get(v) + " meters");
 		}
 	}
 }

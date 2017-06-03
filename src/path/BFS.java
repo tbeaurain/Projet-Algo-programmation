@@ -11,8 +11,12 @@ import createGraph.Stop;
 
 public class BFS extends Path {
 	
+	/**
+	 * bfs()
+	 * @param g
+	 * @param firstNode
+	 */
 	public static void bfs(Graph g, String firstNode) {
-
 		setMarked(new HashMap<String, Boolean>());
 		setPrevious(new HashMap<String, String>());
 		setDistance(new HashMap<String, Double>());
@@ -27,10 +31,6 @@ public class BFS extends Path {
 		q.add(firstNode);
 		while(!q.isEmpty()) {
 			String currentVisit = q.poll();
-			System.out.println("--------------------------------------");
-			System.out.println("Prev : " + prevs);
-			System.out.println("getPrevious().get(currentVisit) : " + getPrevious().get(currentVisit));
-			System.out.println("CurrentVisit : " + currentVisit);
 			List<Stop> neighbors = g.getStopByName(currentVisit).getNeighbors();
 			visited.add(currentVisit);
 			getMarked().put(currentVisit, true);
@@ -55,6 +55,11 @@ public class BFS extends Path {
 		printSP("Avron", firstNode);
 	}
 	
+	/**
+	 * printSP()
+	 * @param v
+	 * @param sommetNode
+	 */
 	public static void printSP(String v, String sommetNode) {
 		Queue<String> path = new LinkedList<String>();
 		
