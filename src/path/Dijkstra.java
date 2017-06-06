@@ -116,8 +116,12 @@ public class Dijkstra extends Path {
 				currentNode = getPrevious().get(currentNode); 
 				nodeListOfPath.add(currentNode); 			
 			}
-			System.out.println("SP de {" + currentNode + " to " + v + "} : " + nodeListOfPath);
+			Map<createGraph.Edge, Integer> ef=Cluster.refreshfrequency(nodeListOfPath);
+			/*System.out.println( " SP de {" + currentNode + " to " + v + "} : " + nodeListOfPath);
 			System.out.println("Minimum distance between "  + currentNode + " and " + v + " : " + getDistance().get(v) + " meters");
+			*/
 		}
 	}
+	
+	
 }

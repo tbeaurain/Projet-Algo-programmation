@@ -281,7 +281,7 @@ public class Graph {
 		return listOfWeight;
 	}
 	
-	public Edge getEdgeWithFromAndTo(String from, String to) {
+	public static Edge getEdgeWithFromAndTo(String from, String to) {
 		Edge edge = null;
 		for(Edge e : getEdges()) {
 			if(e.getFrom().equals(from) && e.getTo().equals(to)) {

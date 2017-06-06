@@ -1,4 +1,5 @@
 package createGraph;
+
 public class Edge 
 {
 	private String from;
