@@ -68,6 +68,7 @@ public class Dijkstra extends Path {
 				}	
 			}
 		}
+<<<<<<< HEAD
 		printPath(to, s);	
 	}
 	
@@ -121,6 +122,9 @@ public class Dijkstra extends Path {
 			System.out.println("Minimum distance between "  + currentNode + " and " + v + " : " + getDistance().get(v) + " meters");
 			*/
 		}
+=======
+		printSP(to, s);	
+>>>>>>> 3768016c9640bfa3968164153d806ce4d2423681
 	}
 	
 	
