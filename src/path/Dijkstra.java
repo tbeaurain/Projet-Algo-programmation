@@ -13,7 +13,7 @@ import createGraph.Graph;
 import createGraph.Stop;
 
 public class Dijkstra extends Path {
-	
+		
 	/**
 	 * verifyNonNegative()
 	 * @param g
@@ -38,7 +38,7 @@ public class Dijkstra extends Path {
 	 * @param g
 	 * @param s
 	 */
-	public static void DijkstraSP(Graph g, String s) {
+	public static void DijkstraSP(Graph g, String s, String to) {
 		if(verifyNonNegative(g) == true) {
 			setMarked(new HashMap<String, Boolean>());
 			setPrevious(new HashMap<String, String>());
@@ -68,21 +68,21 @@ public class Dijkstra extends Path {
 				}	
 			}
 		}
-		//printPath("Bastille", s);	
+		printPath(to, s);	
 	}
 	
 	/**
-	 * This method allows to have the diameter of the Graph.
+	 * This method allows to have the diameter of the WeightedGraph.
 	 * @param g
 	 */
-	public static void DijkstraLP(Graph g) {
+	public static void DijkstraLP(Graph g, String endEdge) {
 		
 		Double maxPathDistance = 0.0;
 		String from ="";
 		String to="";
 		
 		for(Stop stop : g.getListStops()) {
-			DijkstraSP(g, stop.getName());
+			DijkstraSP(g, stop.getName(), endEdge);
 			for(Entry<String, Double> dist : getDistance().entrySet()) {
 				if(dist.getValue() > maxPathDistance) {
 					from = stop.getName();
@@ -116,8 +116,8 @@ public class Dijkstra extends Path {
 				currentNode = getPrevious().get(currentNode); 
 				nodeListOfPath.add(currentNode); 			
 			}
-			System.out.println("SP de {" + v + " to " + currentNode + "} : " + nodeListOfPath);
-			System.out.println("Minimum distance between "  + v + " and " + currentNode + " : " + getDistance().get(v) + " meters");
+			System.out.println("SP de {" + currentNode + " to " + v + "} : " + nodeListOfPath);
+			System.out.println("Minimum distance between "  + currentNode + " and " + v + " : " + getDistance().get(v) + " meters");
 		}
 	}
 }

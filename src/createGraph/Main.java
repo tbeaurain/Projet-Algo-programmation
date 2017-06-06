@@ -20,8 +20,7 @@ public class Main {
 		if(isWeightedGraph == false) {
 			BFS.bfs(g, "Nation");
 		} else {
-			Dijkstra.DijkstraSP(g, "Nation");
-			Dijkstra.DijkstraLP(g);
+			Dijkstra.DijkstraLP(g, "Bastille");
 		}
 	}
 }
