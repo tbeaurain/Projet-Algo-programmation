@@ -1,11 +1,11 @@
 package createGraph;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import path.BFS;
 import path.Cluster;
-import path.Dijkstra;
+import path.Path;
 
 
 public class Main {
@@ -21,16 +21,15 @@ public class Main {
 		Graph g = new Graph(tab,isWeightedGraph);
 		System.out.println("----------------------------------------------------------");
 		Cluster c = new Cluster();
-		c.initialisation(g);
-		Map<createGraph.Edge,Integer> ef = c.getedgesfrequency();
+		c.init(g);
+		Map<Edge,Integer> ef = c.getEdgesFrequency();
 		
-		if(isWeightedGraph == false) {
-			/*BFS.bfs(g, "Nation");*/
-		} else {
-			Dijkstra.DijkstraLP(g, "Bastille");
+		Path.LP(g, isWeightedGraph, "Bastille");
+		List<Entry<Edge,Integer>> edgesToExclude = c.getImportantEdge(ef, 60);
+		System.out.println("Les liens trop visités sont : ");
+		for(Entry<Edge,Integer> e : edgesToExclude) {
+			System.out.println(e.getKey().getFrom() + " -> " + e.getKey().getTo() + ", nombre de visite : " + e.getValue());
 		}
-		for(Entry<Edge, Integer> dist : ef.entrySet()) {
-			System.out.println(dist.getKey().getFrom()+"    " +dist.getKey().getTo()+ "    "+ dist.getValue());
-		}
+		
 	}
 }

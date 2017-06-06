@@ -2,6 +2,7 @@ package path;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import createGraph.Graph;
@@ -113,6 +114,7 @@ public class Path {
 		System.out.println("----------------------------------------------------------");
 		System.out.println(longestPath);
 		System.out.println(longestDistance);
+		System.out.println("----------------------------------------------------------");
 		
 	}
 
@@ -131,6 +133,7 @@ public class Path {
 				currentNode = getPrevious().get(currentNode); 
 				nodeListOfPath.add(currentNode); 			
 			}
+			Map<createGraph.Edge, Integer> ef = Cluster.refreshFrequency(nodeListOfPath);
 			System.out.println("SP de {" + currentNode + " to " + v + "} : " + nodeListOfPath);
 			System.out.println("Minimum distance between "  + currentNode + " and " + v + " : " + getDistance().get(v) + " meters");
 		}

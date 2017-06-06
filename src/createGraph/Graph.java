@@ -277,10 +277,20 @@ public class Graph {
 		Graph.isWeigtedGraph = isWeigtedGraph;
 	}
 
+	/**
+	 * getListOfWeight()
+	 * @return listOfWeight
+	 */
 	public static List<Double> getListOfWeight() {
 		return listOfWeight;
 	}
 	
+	/**
+	 * getEdgeWithFromAndTo()
+	 * @param from
+	 * @param to
+	 * @return edge
+	 */
 	public static Edge getEdgeWithFromAndTo(String from, String to) {
 		Edge edge = null;
 		for(Edge e : getEdges()) {
@@ -291,6 +301,11 @@ public class Graph {
 		return edge;
 	}
 	
+	/**
+	 * getEdgeByOneOfVertices()
+	 * @param stopName
+	 * @return edges
+	 */
 	public List<Edge> getEdgeByOneOfVertices(String stopName) {
 		List<Edge> edges = new ArrayList<Edge>();
 		for(Edge e : getEdges()) {

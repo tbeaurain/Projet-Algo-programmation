@@ -1,6 +1,5 @@
 package path;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,22 +7,26 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import createGraph.Edge;
-import createGraph.Subway;
+import createGraph.Graph;
 
-import java.util.ArrayList;
 
 public class Cluster {
 	
 
-	public static Map<createGraph.Edge, Integer> edgesfrequency ;
+	public static Map<Edge, Integer> edgesfrequency ;
 	
+	/**
+	 * Constructor Cluster.
+	 */
 	public Cluster(){
-		
-		edgesfrequency = new HashMap<createGraph.Edge, Integer>();
-		
+		edgesfrequency = new HashMap<Edge, Integer>();
 	}
 	
-	public static void initialisation(createGraph.Graph g){
+	/**
+	 * init()
+	 * @param g
+	 */
+	public static void init(Graph g){
 		List<Edge> allEdges = g.getEdges();
 		for (Edge e : allEdges){
 			edgesfrequency.put(e,0);
@@ -31,7 +34,12 @@ public class Cluster {
 		
 	}
 	
-	public static Map<createGraph.Edge, Integer> refreshfrequency(ArrayList<String> nodeListOfPath){
+	/**
+	 * refreshFrequency()
+	 * @param nodeListOfPath
+	 * @return edgesfrequency
+	 */
+	public static Map<Edge, Integer> refreshFrequency(ArrayList<String> nodeListOfPath){
 		createGraph.Edge e1; 
 		createGraph.Edge e2;
 		for (int i=0; i<nodeListOfPath.size()-1;i++){
@@ -44,11 +52,32 @@ public class Cluster {
 			}
 		}
 		return edgesfrequency;
-		
 	}
 	
-	public Map<createGraph.Edge, Integer> getedgesfrequency() {
+	/**
+	 * getEdgesFrequency()
+	 * @return edgesfrequency
+	 */
+	public Map<Edge, Integer> getEdgesFrequency() {
 		return edgesfrequency;
+	}
+	
+	/**
+	 * getImportantEdge()
+	 * @param ef
+	 * @param maxVisit
+	 * @return myList
+	 */
+	public List<Entry<Edge,Integer>> getImportantEdge(Map<Edge, Integer> ef, Integer maxVisit) {
+		Map<Edge, Integer> edgesToExclude = new HashMap<Edge, Integer>();
+		List<Entry<Edge,Integer>> myList = new ArrayList<Entry<Edge,Integer>>();
+		
+		for(Entry<Edge, Integer> dist : ef.entrySet()) {
+			if(dist.getValue() > maxVisit) {
+				myList.add(dist);			
+			}
+		}
+		return myList;
 	}
 	
 }
