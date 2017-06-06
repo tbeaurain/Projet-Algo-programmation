@@ -68,56 +68,6 @@ public class Dijkstra extends Path {
 				}	
 			}
 		}
-		printPath(to, s);	
-	}
-	
-	/**
-	 * This method allows to have the diameter of the WeightedGraph.
-	 * @param g
-	 */
-	public static void DijkstraLP(Graph g, String endEdge) {
-		
-		Double maxPathDistance = 0.0;
-		String from ="";
-		String to="";
-		
-		for(Stop stop : g.getListStops()) {
-			DijkstraSP(g, stop.getName(), endEdge);
-			for(Entry<String, Double> dist : getDistance().entrySet()) {
-				if(dist.getValue() > maxPathDistance) {
-					from = stop.getName();
-					maxPathDistance = dist.getValue();
-					to = dist.getKey();
-				}
-			}
-		}
-		
-		String longestPath = "LongestPath : "  + from + " -> " + to;
-		String longestDistance = "LongestDistance : " + maxPathDistance;
-		
-		System.out.println("----------------------------------------------------------");
-		System.out.println(longestPath);
-		System.out.println(longestDistance);
-		
-	}
-
-	/**
-	 * printPath()
-	 * @param v
-	 * @param sommet
-	 */
-	public static void printPath(String v, String sommet) {
-		ArrayList<String> nodeListOfPath = new ArrayList<String>();
-		String currentNode = v;  
-		nodeListOfPath.add(currentNode);  
-		
-		if (hasPathTo(currentNode)) {
-			while(!currentNode.equals(sommet)) {			
-				currentNode = getPrevious().get(currentNode); 
-				nodeListOfPath.add(currentNode); 			
-			}
-			System.out.println("SP de {" + currentNode + " to " + v + "} : " + nodeListOfPath);
-			System.out.println("Minimum distance between "  + currentNode + " and " + v + " : " + getDistance().get(v) + " meters");
-		}
+		printSP(to, s);	
 	}
 }

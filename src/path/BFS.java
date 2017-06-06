@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Map.Entry;
 
 import createGraph.Graph;
 import createGraph.Stop;
@@ -16,7 +17,7 @@ public class BFS extends Path {
 	 * @param g
 	 * @param firstNode
 	 */
-	public static void bfs(Graph g, String firstNode) {
+	public static void bfs(Graph g, String firstNode, String endEdge) {
 		setMarked(new HashMap<String, Boolean>());
 		setPrevious(new HashMap<String, String>());
 		setDistance(new HashMap<String, Double>());
@@ -40,7 +41,7 @@ public class BFS extends Path {
 						if (!prevs.equals(getPrevious().get(neighbor.getName())) ) {
 							count= getDistance().get(currentVisit)+1;					
 						}
-						if(getDistance().get(neighbor.getName()) == null /*|| getDistance().get(neighbor.getName()) > count*/) {
+						if(getDistance().get(neighbor.getName()) == null) {
 							getPrevious().put(neighbor.getName(), currentVisit);
 							getDistance().put(neighbor.getName(), count);
 							System.out.println(neighbor.getName() + " : " + count);
@@ -52,24 +53,6 @@ public class BFS extends Path {
 				}
 			}
 		}
-		printSP("Avron", firstNode);
-	}
-	
-	/**
-	 * printSP()
-	 * @param v
-	 * @param sommetNode
-	 */
-	public static void printSP(String v, String sommetNode) {
-		Queue<String> path = new LinkedList<String>();
-		
-		if (hasPathTo(v)) {
-			for (String i = v; distTo(i) != 0; i = getPrevious().get(i)) {
-			    ((LinkedList<String>) path).push(i);
-			}
-			((LinkedList<String>) path).push(sommetNode);
-			System.out.println("SP {" + v + ", + " +  sommetNode + "} = " + path);
-		}
-	}
-
+		printSP(endEdge, firstNode);
+	} 
 }

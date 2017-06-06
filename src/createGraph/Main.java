@@ -3,6 +3,7 @@ import java.io.IOException;
 
 import path.BFS;
 import path.Dijkstra;
+import path.Path;
 
 
 public class Main {
@@ -17,10 +18,6 @@ public class Main {
 		Boolean isWeightedGraph = true;
 		Graph g = new Graph(tab,isWeightedGraph);
 		System.out.println("----------------------------------------------------------");
-		if(isWeightedGraph == false) {
-			BFS.bfs(g, "Nation");
-		} else {
-			Dijkstra.DijkstraLP(g, "Bastille");
-		}
+		Path.LP(g, isWeightedGraph, "Bastille");
 	}
 }
